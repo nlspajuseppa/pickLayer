@@ -1,35 +1,40 @@
 # CHANGELOG
 
-## v3.1 2018-07-05
+## 3.2.0 - 2021-06-29
+- perform spatial operation on selected feature
+- fix bugs: custom actions, copying features
+- reformat using black, isort and flake8
+- refactor to use qgis_plugin_tools
+- add CI and CD pipelines
+
+## 3.1.0 - 2018-07-05
 - subtract geometry new feature
 - merge with geometry new feature
 - makeValid geometry new feature
-- Feature Highlighting
+- feature highlighting
 
-## v3.0 2018-03-30
+## 3.0.0 - 2018-03-30
 - code migration to QGIS3
 
-## v2.3 2016-06-20
+## 2.3.0 - 2016-06-20
 - attributes values in context submenu - with copy to clipboard of content
 - configure snapping options issue fixed
 - coords typo issue fixed
 
-##  v2.2 2015-06-12
+## 2.2.0 - 2015-06-12
 - issue picking on line feature fixed
 
-## V2.1 2015-05-15
+## 2.1.0 - 2015-05-15
 - selected layer and feature infos
 - copy area and length to clipboard
-- Change datasource issues fixed
+- change datasource issues fixed
 
-## v2.0 2014-11-03
-- Layer Commands added:
-- 1)Zoom to Layer
-- 2)Change Data Source (experimental)
-- Feature Commands added:
-- 3)Zoom to Feature
-- 4)Copy feature and paste geometries and attributes
-- Other Commands:
-- 5)Layer Actions Attached to context menu
-
-###
+## 2.0.0 - 2014-11-03
+- layer commands added:
+    - zoom to layer
+    - change data source (experimental)
+- feature commands added:
+    - zoom to feature
+    - copy feature and paste geometries and attributes
+- other commands:
+    - layer actions attached to context menu
