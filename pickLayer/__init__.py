@@ -22,7 +22,7 @@
 import os
 import sys
 
-from picklayer.qgis_plugin_tools.infrastructure.debugging import (  # noqa F401
+from pickLayer.qgis_plugin_tools.infrastructure.debugging import (  # noqa F401
     setup_debugpy,
     setup_ptvsd,
     setup_pydevd,
@@ -43,6 +43,6 @@ def classFactory(iface):  # noqa N802 QGS105
     :param iface: A QGIS interface instance.
     :type iface: QgsInterface
     """
-    from picklayer.plugin import Plugin
+    from pickLayer.plugin import Plugin
 
     return Plugin()

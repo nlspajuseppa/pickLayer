@@ -1,4 +1,4 @@
-from picklayer.qgis_plugin_tools.tools.resources import plugin_name
+from pickLayer.qgis_plugin_tools.tools.resources import plugin_name
 
 
 def test_plugin_name():

@@ -29,10 +29,10 @@ from qgis.PyQt import QtGui, QtWidgets
 from qgis.PyQt.QtCore import QUuid
 from qgis.utils import iface, plugins
 
-from picklayer.core.identifygeometry import IdentifyGeometry
-from picklayer.qgis_plugin_tools.tools.i18n import tr
-from picklayer.qgis_plugin_tools.tools.messages import MsgBar
-from picklayer.qgis_plugin_tools.tools.resources import plugin_name, resources_path
+from pickLayer.core.identifygeometry import IdentifyGeometry
+from pickLayer.qgis_plugin_tools.tools.i18n import tr
+from pickLayer.qgis_plugin_tools.tools.messages import MsgBar
+from pickLayer.qgis_plugin_tools.tools.resources import plugin_name, resources_path
 
 enable_disable = {True: "Enable", False: "Disable"}
 

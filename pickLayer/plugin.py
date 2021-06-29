@@ -24,13 +24,13 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QWidget
 from qgis.utils import iface
 
-from picklayer.core.picklayer import PickLayer
-from picklayer.qgis_plugin_tools.tools.custom_logging import (
+from pickLayer.core.picklayer import PickLayer
+from pickLayer.qgis_plugin_tools.tools.custom_logging import (
     setup_logger,
     teardown_logger,
 )
-from picklayer.qgis_plugin_tools.tools.i18n import setup_translation, tr
-from picklayer.qgis_plugin_tools.tools.resources import plugin_name, resources_path
+from pickLayer.qgis_plugin_tools.tools.i18n import setup_translation, tr
+from pickLayer.qgis_plugin_tools.tools.resources import plugin_name, resources_path
 
 
 class Plugin:

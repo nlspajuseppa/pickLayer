@@ -1,7 +1,7 @@
 # pickLayer
-![tests](https://github.com/nlsfi/picklayer/workflows/Tests/badge.svg)
-[![codecov.io](https://codecov.io/github/nlsfi/picklayer/coverage.svg?branch=main)](https://codecov.io/github/nlsfi/picklayer?branch=main)
-![release](https://github.com/nlsfi/picklayer/workflows/Release/badge.svg)
+![tests](https://github.com/nlsfi/pickLayer/workflows/Tests/badge.svg)
+[![codecov.io](https://codecov.io/github/nlsfi/pickLayer/coverage.svg?branch=main)](https://codecov.io/github/nlsfi/pickLayer?branch=main)
+![release](https://github.com/nlsfi/pickLayer/workflows/Release/badge.svg)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)

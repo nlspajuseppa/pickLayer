@@ -26,9 +26,9 @@ from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtGui import QCursor
 
 # from cursor import Cursor
-from picklayer.qgis_plugin_tools.tools.i18n import tr
-from picklayer.qgis_plugin_tools.tools.messages import MsgBar
-from picklayer.qgis_plugin_tools.tools.resources import plugin_name
+from pickLayer.qgis_plugin_tools.tools.i18n import tr
+from pickLayer.qgis_plugin_tools.tools.messages import MsgBar
+from pickLayer.qgis_plugin_tools.tools.resources import plugin_name
 
 LOGGER = logging.getLogger(plugin_name())
 
