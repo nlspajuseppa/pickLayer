@@ -52,7 +52,7 @@ class Plugin:
             pass
 
         self.actions: List[QAction] = []
-        self.menu = tr(plugin_name())
+        self.menu = "&pick layer"
         self.pick_layer: Optional[PickLayer] = None
         self.pick_layer_action: Optional[QAction] = None
 
