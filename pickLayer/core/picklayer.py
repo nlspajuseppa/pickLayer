@@ -454,7 +454,7 @@ class PickLayer:
         highlight.setColor(QtGui.QColor("#36AF6C"))
         highlight.setFillColor(QtGui.QColor("#36AF6C"))
         highlight.setWidth(2)
-        highlight.setToGeometry(geometry, iface.mapCanvas().currentLayer())
+        highlight.setToGeometry(geometry, self.selected_layer)
         process_events()
         sleep(0.1)
         highlight.hide()
