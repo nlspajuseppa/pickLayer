@@ -17,34 +17,53 @@
 #  You should have received a copy of the GNU General Public License
 #  along with PickLayer. If not, see <https://www.gnu.org/licenses/>.
 
-import itertools
+from typing import List, Tuple
+from unittest.mock import MagicMock
 
 import pytest
+from pytest_mock import MockerFixture
+from pytest_qgis import QgisInterface
 from qgis.core import (
+    QgsCoordinateReferenceSystem,
+    QgsFields,
     QgsGeometry,
+    QgsMemoryProviderUtils,
     QgsPointXY,
     QgsProject,
     QgsRasterLayer,
     QgsVectorLayer,
     QgsVectorLayerUtils,
 )
+from qgis.gui import QgsMapToolIdentify
 
 from pickLayer.core.set_active_layer_tool import SetActiveLayerTool
 from pickLayer.definitions.settings import Settings
 from pickLayer.qgis_plugin_tools.tools.resources import plugin_test_data_path
 
-ALL_LAYER_TYPES = [
-    QgsVectorLayer("Point", "Point", "memory"),
-    QgsVectorLayer("LineString", "LineString", "memory"),
-    QgsVectorLayer("Polygon", "Polygon", "memory"),
-]
-
-LINE_AND_POLYGON_LAYERS = [
-    QgsVectorLayer("LineString", "LineString", "memory"),
-    QgsVectorLayer("Polygon", "Polygon", "memory"),
-]
-
 MOUSE_LOCATION = QgsPointXY(0, 0)
+
+
+def create_identify_result(
+    identified_feature_geom_wtks: List[Tuple[str, str, str]]
+) -> List[QgsMapToolIdentify.IdentifyResult]:
+    results = []
+
+    for wkt, crs, layer_name in identified_feature_geom_wtks:
+        geometry = QgsGeometry.fromWkt(wkt)
+        layer = QgsMemoryProviderUtils.createMemoryLayer(
+            layer_name,
+            QgsFields(),
+            geometry.wkbType(),
+            QgsCoordinateReferenceSystem(crs),
+        )
+        feature = QgsVectorLayerUtils.createFeature(layer, geometry, {})
+        layer.dataProvider().addFeature(feature)
+
+        # using the actual QgsMapToolIdentify.IdentifyResult causes
+        # fatal exceptions, mock probably is sufficient for testing
+        results.append(MagicMock(**{"mLayer": layer, "mFeature": feature}))
+
+    return results
 
 
 @pytest.fixture()
@@ -176,60 +195,181 @@ def test_set_active_layer_using_closest_feature_does_nothing_if_layer_not_found(
     m_set_active_layer.assert_not_called()
 
 
-@pytest.mark.parametrize(
-    "layers",
-    argvalues=itertools.permutations(ALL_LAYER_TYPES, 3),
-)
-def test_choose_layer_should_choose_point_layer(
-    map_tool,
-    layers,
+def test_preferred_type_chosen_from_different_types(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
 ):
+    results = create_identify_result(
+        [
+            ("POINT(3 3)", "EPSG:3067", "point"),
+            ("LINESTRING(4 4, 5 5)", "EPSG:3067", "line"),
+            ("POLYGON((0 0, 0 1, 1 1, 1 0, 0 0))", "EPSG:3067", "polygon"),
+        ]
+    )
 
-    resulting_layer = map_tool._choose_layer(layers)
+    QgsProject.instance().setCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
 
-    assert resulting_layer.name() == "Point"
+    mocker.patch.object(map_tool, "identify", return_value=results)
+
+    m_set_active_layer = mocker.patch.object(
+        qgis_iface, "setActiveLayer", return_value=None
+    )
+
+    map_tool.set_active_layer_using_closest_feature(QgsPointXY(-1, -1))
+
+    m_set_active_layer.assert_called_once()
+
+    args, _ = m_set_active_layer.call_args_list[0]
+    call_layer = args[0]
+    assert call_layer.name() == "point"
 
 
-@pytest.mark.parametrize(
-    "layers",
-    argvalues=itertools.permutations(LINE_AND_POLYGON_LAYERS, 2),
-)
-def test_choose_layer_should_choose_line_layer(
-    map_tool,
-    layers,
+def test_closest_of_same_type_chosen(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
 ):
+    results = create_identify_result(
+        [
+            ("POINT(3 3)", "EPSG:3067", "point-mid"),
+            ("POINT(2 2)", "EPSG:3067", "point-close"),
+            ("POINT(4 4)", "EPSG:3067", "point-far"),
+        ]
+    )
 
-    resulting_layer = map_tool._choose_layer(layers)
+    QgsProject.instance().setCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+    map_tool.canvas().setDestinationCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
 
-    assert resulting_layer.name() == "LineString"
+    mocker.patch.object(map_tool, "identify", return_value=results)
+
+    m_set_active_layer = mocker.patch.object(
+        qgis_iface, "setActiveLayer", return_value=None
+    )
+
+    map_tool.set_active_layer_using_closest_feature(QgsPointXY(1, 1))
+
+    m_set_active_layer.assert_called_once()
+
+    args, _ = m_set_active_layer.call_args_list[0]
+    call_layer = args[0]
+    assert call_layer.name() == "point-close"
 
 
-def test_choose_layer_should_return_vector_layer(map_tool):
+def test_closest_of_same_type_chosen_even_if_project_and_layer_crs_differs(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
+    qgis_new_project,
+):
+    results = create_identify_result(
+        [
+            # points close to 250000,6700000 in 3067 in different crs's
+            ("POINT(22.46220271 60.35440884)", "EPSG:4326", "point-far"),
+            ("POINT(2415468 6694753)", "EPSG:2392", "point-mid"),
+            ("POINT(2501177 8479351)", "EPSG:3857", "point-close"),
+        ]
+    )
 
+    QgsProject.instance().setCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+    map_tool.canvas().setDestinationCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+
+    mocker.patch.object(map_tool, "identify", return_value=results)
+
+    m_set_active_layer = mocker.patch.object(
+        qgis_iface, "setActiveLayer", return_value=None
+    )
+
+    map_tool.set_active_layer_using_closest_feature(QgsPointXY(250000, 6700000))
+
+    m_set_active_layer.assert_called_once()
+
+    args, _ = m_set_active_layer.call_args_list[0]
+    call_layer = args[0]
+    assert call_layer.name() == "point-close"
+
+
+def test_line_crossing_origin_chosen_as_closest(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
+    qgis_new_project,
+):
+    results = create_identify_result(
+        [
+            ("LINESTRING(1.1 1.1, 2 2)", "EPSG:3067", "line-not-crossing"),
+            ("LINESTRING(0 2, 2 0)", "EPSG:3067", "line-crossing"),
+        ]
+    )
+
+    QgsProject.instance().setCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+    map_tool.canvas().setDestinationCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+
+    mocker.patch.object(map_tool, "identify", return_value=results)
+
+    m_set_active_layer = mocker.patch.object(
+        qgis_iface, "setActiveLayer", return_value=None
+    )
+
+    map_tool.set_active_layer_using_closest_feature(QgsPointXY(1, 1))
+
+    m_set_active_layer.assert_called_once()
+
+    args, _ = m_set_active_layer.call_args_list[0]
+    call_layer = args[0]
+    assert call_layer.name() == "line-crossing"
+
+
+def test_top_polygon_chosen_from_multiple_nested_even_if_top_not_closest(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
+    qgis_new_project,
+):
+    results = create_identify_result(
+        [
+            ("POLYGON((0 0, 0 10, 10 10, 10 0, 0 0))", "EPSG:3067", "polygon-0-10"),
+            ("POLYGON((0 -5, 0 5, 5 5, 5 -5, 0 -5))", "EPSG:3067", "polygon-5-5"),
+        ]
+    )
+
+    QgsProject.instance().setCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+    map_tool.canvas().setDestinationCrs(QgsCoordinateReferenceSystem("EPSG:3067"))
+
+    mocker.patch.object(map_tool, "identify", return_value=results)
+
+    m_set_active_layer = mocker.patch.object(
+        qgis_iface, "setActiveLayer", return_value=None
+    )
+
+    # emulate click near the corner of 5-5 and close to center of 10-10
+    map_tool.set_active_layer_using_closest_feature(QgsPointXY(4.9, 4.9))
+
+    m_set_active_layer.assert_called_once()
+
+    args, _ = m_set_active_layer.call_args_list[0]
+    call_layer = args[0]
+    assert call_layer.name() == "polygon-0-10"
+
+
+def test_only_raster_present_no_change_active_layer(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
+    qgis_new_project,
+):
+    # raster file is 1,1 -> 2,2 bbox in 4326 crs
     raster_file = plugin_test_data_path("raster", "simple_raster_layer.tif")
-
     raster_layer = QgsRasterLayer(raster_file)
+    QgsProject.instance().addMapLayer(raster_layer)
 
-    resulting_layer = map_tool._choose_layer(
-        [
-            QgsVectorLayer("Point", "Point", "memory"),
-            QgsVectorLayer("LineString", "LineString", "memory"),
-            QgsVectorLayer("Polygon", "Polygon", "memory"),
-            raster_layer,
-        ]
+    QgsProject.instance().setCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
+    map_tool.canvas().setDestinationCrs(QgsCoordinateReferenceSystem("EPSG:4326"))
+
+    m_set_active_layer = mocker.patch.object(
+        qgis_iface, "setActiveLayer", return_value=None
     )
 
-    assert resulting_layer.name() == "Point"
+    map_tool.set_active_layer_using_closest_feature(QgsPointXY(1.5, 1.5))
 
-
-def test_choose_layer_should_preserve_order_of_layers(map_tool):
-
-    resulting_layer = map_tool._choose_layer(
-        [
-            QgsVectorLayer("LineString", "LineString", "memory"),
-            QgsVectorLayer("Point", "Point_closest", "memory"),
-            QgsVectorLayer("Point", "Point_second_closest", "memory"),
-        ]
-    )
-
-    assert resulting_layer.name() == "Point_closest"
+    m_set_active_layer.assert_not_called()
