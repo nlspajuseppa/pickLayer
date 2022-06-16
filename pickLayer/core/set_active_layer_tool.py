@@ -30,7 +30,7 @@ from qgis.core import (
     QgsVectorLayer,
     QgsWkbTypes,
 )
-from qgis.gui import QgsMapCanvas, QgsMapMouseEvent, QgsMapToolIdentify
+from qgis.gui import QgsMapCanvas, QgsMapMouseEvent, QgsMapTool, QgsMapToolIdentify
 from qgis.PyQt.QtCore import QPoint
 from qgis.PyQt.QtGui import QCursor
 from qgis.utils import iface
@@ -45,7 +45,13 @@ LOGGER = logging.getLogger(plugin_name())
 
 class SetActiveLayerTool(QgsMapToolIdentify):
     """
-    Map tool for selecting feature and its versions.
+    Map tool that sets active layer by a click on the map canvas.
+
+    New active layer is determined based on the feature that is closest
+    to the clicked coordinate.
+
+    Map tool is automatically deactived and swapped to previous map tool
+    after the new active layer is set.
     """
 
     def __init__(
@@ -54,6 +60,7 @@ class SetActiveLayerTool(QgsMapToolIdentify):
     ) -> None:
         super().__init__(canvas)
         self.setCursor(QCursor())
+        self.previous_map_tool: Optional[QgsMapTool] = None
 
     def canvasReleaseEvent(self, mouse_event: QgsMapMouseEvent) -> None:  # noqa N802
         try:
@@ -86,7 +93,18 @@ class SetActiveLayerTool(QgsMapToolIdentify):
 
         if layer_to_activate is not None:
             LOGGER.info(tr("Activating layer {}", layer_to_activate.name()))
-            iface.setActiveLayer(layer_to_activate)
+            self._activate_layer_and_previous_map_tool(layer_to_activate)
+
+    def _activate_layer_and_previous_map_tool(
+        self, layer_to_activate: QgsMapLayer
+    ) -> None:
+        iface.setActiveLayer(layer_to_activate)
+        if self.previous_map_tool is None:
+            LOGGER.info(
+                tr("Previous map tool not found: Set Active Layer tool remains active.")
+            )
+            return
+        iface.mapCanvas().setMapTool(self.previous_map_tool)
 
     def _get_default_search_radius(self) -> float:
         # For some reason overriding searchRadiusMM does not seem to affect

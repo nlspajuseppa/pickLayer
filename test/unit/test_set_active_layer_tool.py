@@ -34,7 +34,7 @@ from qgis.core import (
     QgsVectorLayer,
     QgsVectorLayerUtils,
 )
-from qgis.gui import QgsMapToolIdentify
+from qgis.gui import QgsMapTool, QgsMapToolIdentify
 
 from pickLayer.core.set_active_layer_tool import SetActiveLayerTool
 from pickLayer.definitions.settings import Settings
@@ -185,6 +185,10 @@ def test_set_active_layer_using_closest_feature_does_nothing_if_layer_not_found(
         return_value=None,
         autospec=True,
     )
+    # Spy is used instead of patch in order to double check setActiveLayer is never called
+    spy_activate_layer_and_previous_map_tool = mocker.spy(
+        map_tool, "_activate_layer_and_previous_map_tool"
+    )
     m_set_active_layer = mocker.patch.object(
         qgis_iface, "setActiveLayer", return_value=None
     )
@@ -192,6 +196,7 @@ def test_set_active_layer_using_closest_feature_does_nothing_if_layer_not_found(
     map_tool.set_active_layer_using_closest_feature(MOUSE_LOCATION)
 
     m_choose_layer_from_identify_results.assert_called_once()
+    spy_activate_layer_and_previous_map_tool.assert_not_called()
     m_set_active_layer.assert_not_called()
 
 
@@ -373,3 +378,34 @@ def test_only_raster_present_no_change_active_layer(
     map_tool.set_active_layer_using_closest_feature(QgsPointXY(1.5, 1.5))
 
     m_set_active_layer.assert_not_called()
+
+
+def test_activate_layer_and_previous_map_tool_activates_previous_map_tool(
+    map_tool: SetActiveLayerTool, mocker: MockerFixture, qgis_iface: QgisInterface
+):
+    m_logger_info = mocker.patch("pickLayer.core.set_active_layer_tool.LOGGER.info")
+    dummy_map_tool = QgsMapTool(qgis_iface.mapCanvas())
+    map_tool.previous_map_tool = dummy_map_tool
+    assert qgis_iface.mapCanvas().mapTool() is None
+
+    map_tool._activate_layer_and_previous_map_tool(MagicMock())
+
+    m_logger_info.assert_not_called()
+    assert qgis_iface.mapCanvas().mapTool() == dummy_map_tool
+
+
+def test_activate_layer_and_previous_map_tool_doesnt_change_tool_when_previous_not_found(
+    map_tool: SetActiveLayerTool,
+    mocker: MockerFixture,
+    qgis_iface: QgisInterface,
+):
+    m_logger_info = mocker.patch("pickLayer.core.set_active_layer_tool.LOGGER.info")
+    m_iface_mapcanvas = mocker.patch(
+        "pickLayer.core.set_active_layer_tool.iface.mapCanvas"
+    )
+    assert map_tool.previous_map_tool is None
+
+    map_tool._activate_layer_and_previous_map_tool(MagicMock())
+
+    m_logger_info.assert_called_once()
+    m_iface_mapcanvas.assert_not_called()
