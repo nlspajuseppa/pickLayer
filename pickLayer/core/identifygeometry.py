@@ -62,7 +62,7 @@ class IdentifyGeometry(QgsMapToolIdentify):
             Settings.identify_tool_search_radius.set(orig_search_radius)
 
         if len(results) > 0:
-            LOGGER.debug("Feature found")
+            LOGGER.debug(tr("Feature found"))
             self.geom_identified.emit(
                 results[0].mLayer, QgsFeature(results[0].mFeature)
             )
