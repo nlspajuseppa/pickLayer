@@ -3,12 +3,12 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../../core/identifygeometry.py" line="55"/>
+        <location filename="../../core/set_active_layer_tool.py" line="71"/>
         <source>Error occurred: {}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/identifygeometry.py" line="55"/>
+        <location filename="../../core/set_active_layer_tool.py" line="71"/>
         <source>Check log for more details.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -158,7 +158,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qgis_plugin_tools/tools/decorations.py" line="34"/>
+        <location filename="../../qgis_plugin_tools/tools/tasks.py" line="75"/>
         <source>Unhandled exception occurred</source>
         <translation type="unfinished"></translation>
     </message>
@@ -188,8 +188,121 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qgis_plugin_tools/tools/layers.py" line="137"/>
+        <location filename="../../qgis_plugin_tools/tools/layers.py" line="143"/>
         <source>Field name {} does not exist in layer {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin.py" line="110"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin.py" line="119"/>
+        <source>Set active layer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin.py" line="119"/>
+        <source>Set layer active based on closest feature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../plugin.py" line="235"/>
+        <source>Current map tool before activating Set Active Layer tool is {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../core/identifygeometry.py" line="65"/>
+        <source>Feature found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../core/set_active_layer_tool.py" line="95"/>
+        <source>Activating layer {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../core/set_active_layer_tool.py" line="103"/>
+        <source>Previous map tool not found: Set Active Layer tool remains active.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qgis_plugin_tools/test/test_i18n.py" line="5"/>
+        <source>These are args {} {} and these are kwargs {foo} {bar}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qgis_plugin_tools/tools/tasks.py" line="65"/>
+        <source>Task {} was not successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qgis_plugin_tools/tools/tasks.py" line="65"/>
+        <source>Task was cancelled by user or some dependency tasks failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qgis_plugin_tools/tools/tasks.py" line="98"/>
+        <source>Task canceled!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qgis_plugin_tools/widgets/progress_dialog.py" line="41"/>
+        <source>Abort</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Dialog</name>
+    <message>
+        <location filename="../../qgis_plugin_tools/resources/ui/progress_dialog.ui" line="14"/>
+        <source>Processing...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="14"/>
+        <source>pickLayer Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="28"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="44"/>
+        <source>PickLayer Search radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="54"/>
+        <source> mm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="74"/>
+        <source>Logging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="88"/>
+        <source>Console level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="104"/>
+        <source>File level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="121"/>
+        <source>QGIS must be restarted in order to apply changes in log levels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings_dialog.ui" line="143"/>
+        <source>Open most recent log file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

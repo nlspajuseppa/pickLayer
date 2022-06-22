@@ -58,7 +58,7 @@ class Plugin:
 
         self.actions: List[QAction] = []
         self.toolbar: Optional[QToolBar] = None
-        self.menu = "&pick layer"
+        self.menu = plugin_name()
         self.pick_layer_tool: Optional[PickLayer] = None
         self.pick_layer_action: Optional[QAction] = None
         self.set_active_layer_tool = SetActiveLayerTool(iface.mapCanvas())
