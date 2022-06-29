@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 3.4.0 - 2022-06-29
 
 - pick active by clicking now considers distance between same type of layers
 - automatically return to previous map tool after successfull use of set active layer tool
