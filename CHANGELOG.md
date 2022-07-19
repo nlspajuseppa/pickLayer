@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.5.0 - 2022-07-19
+
+- add finnish translations
+
 ## 3.4.0 - 2022-06-29
 
 - pick active by clicking now considers distance between same type of layers
