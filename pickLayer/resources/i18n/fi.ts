@@ -6,7 +6,7 @@
     <message>
         <location filename="../../core/set_active_layer_tool.py" line="71"/>
         <source>Error occurred: {}</source>
-        <translation>Ilmaantui virhe:{}</translation>
+        <translation>Ilmaantui virhe: {}</translation>
     </message>
     <message>
         <location filename="../../core/set_active_layer_tool.py" line="71"/>
@@ -14,92 +14,77 @@
         <translation>Lue lokista lisätietoja.</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="104"/>
+        <location filename="../../core/picklayer.py" line="102"/>
         <source>Layer: {}</source>
-        <translation>Taso:{}</translation>
+        <translation>Taso: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="128"/>
+        <location filename="../../core/picklayer.py" line="126"/>
         <source>Lon: {}</source>
-        <translation>Pituuaste:{}</translation>
+        <translation>Pituuaste: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="131"/>
+        <location filename="../../core/picklayer.py" line="129"/>
         <source>Lat: {}</source>
-        <translation>Leveysaste:{}</translation>
+        <translation>Leveysaste: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="159"/>
+        <location filename="../../core/picklayer.py" line="157"/>
         <source>North: {}</source>
         <translation>Pohjoinen: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="162"/>
+        <location filename="../../core/picklayer.py" line="160"/>
         <source>South: {}</source>
         <translation>Etelä: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="165"/>
+        <location filename="../../core/picklayer.py" line="163"/>
         <source>East: {}</source>
         <translation>Itä: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="168"/>
+        <location filename="../../core/picklayer.py" line="166"/>
         <source>West: {}</source>
         <translation>Länsi: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="151"/>
+        <location filename="../../core/picklayer.py" line="149"/>
         <source>Length: {}</source>
         <translation>Pituus: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="171"/>
+        <location filename="../../core/picklayer.py" line="169"/>
         <source>Perimeter: {}</source>
         <translation>Ympärysmitta: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="175"/>
+        <location filename="../../core/picklayer.py" line="173"/>
         <source>Area: {}</source>
         <translation>Pinta-ala: {}</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="180"/>
-        <source>Set current layer</source>
-        <translation>Aseta nykyinen taso</translation>
-    </message>
-    <message>
-        <location filename="../../core/picklayer.py" line="184"/>
-        <source>Hide</source>
-        <translation>Piilota</translation>
-    </message>
-    <message>
-        <location filename="../../core/picklayer.py" line="188"/>
-        <source>Open properties dialog</source>
-        <translation>Avaa ominaisuudet</translation>
-    </message>
-    <message>
-        <location filename="../../core/picklayer.py" line="192"/>
+        <location filename="../../core/picklayer.py" line="190"/>
         <source>Zoom to layer extension</source>
         <translation>Tarkenna tason laajuuteen</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="201"/>
+        <location filename="../../core/picklayer.py" line="199"/>
         <source>Open attribute table</source>
-        <translation>Avaa ominaisuustietotaulukko</translation>
+        <translation>Avaa ominaisuustietotaulu</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="209"/>
+        <location filename="../../core/picklayer.py" line="207"/>
         <source>Stop editing</source>
-        <translation>Lopeta muokaaminen</translation>
+        <translation>Lopeta muokkaaminen</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="220"/>
+        <location filename="../../core/picklayer.py" line="218"/>
         <source>Start editing</source>
         <translation>Aloita muokkaaminen</translation>
     </message>
     <message>
-        <location filename="../../core/picklayer.py" line="226"/>
+        <location filename="../../core/picklayer.py" line="224"/>
         <source>Zoom to feature</source>
         <translation>Tarkenna kohteeseen</translation>
     </message>
@@ -111,7 +96,7 @@
     <message>
         <location filename="../../core/picklayer.py" line="265"/>
         <source>Paste attributes on feature</source>
-        <translation>Liitä ominaisuudet kohteeseen</translation>
+        <translation>Liitä ominaisuustiedot kohteeseen</translation>
     </message>
     <message>
         <location filename="../../core/picklayer.py" line="270"/>
@@ -126,7 +111,7 @@
     <message>
         <location filename="../../core/picklayer.py" line="282"/>
         <source>Make Valid Geometry</source>
-        <translation>Tee geometriasta oikeellinen</translation>
+        <translation>Korjaa geometriat</translation>
     </message>
     <message>
         <location filename="../../core/picklayer.py" line="290"/>
@@ -136,12 +121,12 @@
     <message>
         <location filename="../../core/picklayer.py" line="295"/>
         <source>Feature attributes view</source>
-        <translation>Näytä kohteen ominaisuudet</translation>
+        <translation>Näytä kohteen ominaisuustiedot</translation>
     </message>
     <message>
         <location filename="../../core/picklayer.py" line="300"/>
         <source>Feature attributes edit</source>
-        <translation>Muokkaa kohteen ominaisuuksia</translation>
+        <translation>Muokkaa kohteen ominaisuustietoja</translation>
     </message>
     <message>
         <location filename="../../core/picklayer.py" line="490"/>
@@ -166,7 +151,7 @@
     <message>
         <location filename="../../qgis_plugin_tools/tools/network.py" line="156"/>
         <source>Request failed with status code {}</source>
-        <translation>Pyyntö epäonnistui tilakoodilla: {}</translation>
+        <translation>Pyyntö epäonnistui tilakoodilla {}</translation>
     </message>
     <message>
         <location filename="../../qgis_plugin_tools/tools/network.py" line="170"/>
@@ -199,7 +184,7 @@
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../../plugin.py" line="119"/>
+        <location filename="../../core/picklayer.py" line="178"/>
         <source>Set active layer</source>
         <translation>Aseta taso aktiiviseksi</translation>
     </message>
@@ -252,6 +237,26 @@
         <location filename="../../qgis_plugin_tools/widgets/progress_dialog.py" line="41"/>
         <source>Abort</source>
         <translation>Hylkää</translation>
+    </message>
+    <message>
+        <location filename="../../core/picklayer.py" line="182"/>
+        <source>Hide layer</source>
+        <translation>Piilota taso</translation>
+    </message>
+    <message>
+        <location filename="../../core/picklayer.py" line="186"/>
+        <source>Open layer properties</source>
+        <translation>Avaa tason ominaisuudet</translation>
+    </message>
+    <message>
+        <location filename="../../core/picklayer.py" line="236"/>
+        <source>Enable snapping</source>
+        <translation>Ota tarttuminen käyttöön</translation>
+    </message>
+    <message>
+        <location filename="../../core/picklayer.py" line="236"/>
+        <source>Disable snapping</source>
+        <translation>Poista tarttuminen käytöstä</translation>
     </message>
 </context>
 <context>
